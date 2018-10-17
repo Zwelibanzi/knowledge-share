@@ -1,0 +1,31 @@
+server {
+   listen 80;
+   listen [::]:80;
+
+   server_name LOCAL_HOST_DOMAIN_NAME;
+
+   root /var/www/PROJECT_NAME/public;
+
+   index index.php index.html index.htm;
+
+   location / {
+       try_files $uri $uri/ /index.php?$query_string;
+   }
+
+   location = /favicon.ico { access_log off; log_not_found off; }
+   location = /robots.txt  { access_log off; log_not_found off; }
+
+   access_log  /var/log/nginx/LOG_ACCESS_FILE_NAME.log;
+   error_log  /var/log/nginx/LOG_FILE_NAME.log;
+
+   location ~ \.php$ {
+       fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+       if (!-f $document_root$fastcgi_script_name) {
+       return 404;
+    }     
+    include /etc/nginx/fastcgi_params;
+    fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+   }
+}
