@@ -1,16 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
 run `composer install`
 
 Run `php bin/console list` to see which commands you have access to. These include: `make`, `server` and `doctrine:fixtures`
